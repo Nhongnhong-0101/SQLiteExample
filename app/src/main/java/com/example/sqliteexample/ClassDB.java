@@ -26,7 +26,7 @@ public class ClassDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table CLASS (id text primary key, name text, students int)");
-        db.execSQL("create table STUDENT(id text primary key, name text, image int, dob text, class text)");
+        db.execSQL("create table STUDENT(id text primary key, name text, image int, dob text, classID text)");
 
     }
 
@@ -54,7 +54,7 @@ public class ClassDB extends SQLiteOpenHelper {
         contentValues.put("name", s.getName());
         contentValues.put("dob", s.getDob());
         contentValues.put("image", s.getImage());
-        contentValues.put("classID", s.getClassID());
+        contentValues.put("class", s.getClassID());
         db.insert("STUDENT", null, contentValues);
         db.close();
     }
@@ -78,14 +78,22 @@ public class ClassDB extends SQLiteOpenHelper {
     public ArrayList<Student> getStudents(String idClass) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Student> students = new ArrayList<>();
-        String sql = "select * from STUDENT";
-        Cursor cursor = db.rawQuery(sql, null);
-        if  (cursor!= null){
-            //lay tren xyong den het
-            cursor.moveToFirst();
-            while (cursor.isAfterLast() == false){
-                students.add(new Student(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4)));
-                cursor.moveToNext();
+        String sql = "select * from STUDENT where class = ?";
+        String []kqua = {idClass};
+        Cursor cursor = db.rawQuery(sql, kqua);
+//        if  (cursor!= null){
+//            //lay tren xyong den het
+//            cursor.moveToFirst();
+//            while (cursor.isAfterLast() == false){
+//                students.add(new Student(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4)));
+//                cursor.moveToNext();
+//            }
+//        }
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    students.add(new Student(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4)));
+                } while (cursor.moveToNext());
             }
         }
         return students;

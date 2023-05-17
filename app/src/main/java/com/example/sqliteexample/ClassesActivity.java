@@ -22,7 +22,9 @@ public class ClassesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_classes);
 
         db = new ClassDB(ClassesActivity.this);
+        classes = new ArrayList<InfOfClass>();
         classes.addAll(db.getClasses());
+
         lvClass = findViewById(R.id.lvClasses);
         classAdapter = new ClassAdapter(classes, this);
         lvClass.setAdapter(classAdapter);
@@ -36,6 +38,7 @@ public class ClassesActivity extends AppCompatActivity {
                 intent.putExtra("id", i.getId());
                 intent.putExtra("name", i.getName());
                 intent.putExtra("students", i.getStudents());
+
                 startActivity(intent);
             }
         });

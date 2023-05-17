@@ -40,13 +40,14 @@ public class ClassAdapter extends BaseAdapter {
 
             //anh xâ dư lieu
             InfOfClass infOfClass = classes.get(i);
-            TextView tvName = v.findViewById(R.id.tvName);
-            TextView tvID = v.findViewById(R.id.tvId);
-            TextView tvStu = v.findViewById(R.id.tvStudents);
+            TextView tvName = (TextView) v.findViewById(R.id.tvName);
+            TextView tvID = (TextView) v.findViewById(R.id.tvIDClass);
+            TextView tvStu = (TextView) v.findViewById(R.id.tvStudentsOfClass);
 
+            String s = String.valueOf(infOfClass.getStudents());
             tvName.setText(infOfClass.getName());
             tvID.setText(infOfClass.getId());
-            tvStu.setText(infOfClass.getStudents());
+            tvStu.setText(s);
 
         }
         return v;
